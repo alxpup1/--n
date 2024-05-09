@@ -1,1 +1,36 @@
-
+import requests
+from bs4 import BeautifulSoupimport jieba
+from sk[learn](https://geek.csdn.net/educolum/e0b6a1b1fade77eafad2b50b8238c45b8?spm=1055.2569.301.1e083). feature_extractiotfrom sk[learn](https://geek.csdn.net/educolum/eb6a1b1fade77eafad2b50b8238c4b0?spm=10855.2569.301.1ee83).cluster import KiMtimport matplotlib.pyplot as plt
+#爬取新闻数据
+def get_news(url):
+res = requests.get(ur1)res.encoding = 'utf-8'
+soup = Beautifulsoup( res.text，' html.parser ')news = soup.select( 'h2 > a ' )
+content = []
+for n in news:
+href = n[ ' href']title = n.text
+news_res = requests.get( href)news_res.encoding = ‘utf-8'
+news_soup = Beautifulsoup(news_res.text，'html.parser')article = news_soup.select( ' .article-content-inner > p')content.append(title)
+for p in article:
+content.append(p.text)
+return content
+#文本预处理
+def preprocess(content):
+stopwords = [line.strip() for line in open( ' stopwords.txt ', 'r ' , encoding= 'utf-8' ).readlines()]corpus = []
+for c in content:
+words = jieba.cut(c)
+words = [w for w in words if w not in stopwords and len(w) >1]corpus.append(' '.join(words ))
+return corpus
+#文本[聚类分析](https://geek.csdn.net/educolumn/ee599a7fa1af766d557e20e1706b8821?spm=1055
+.2569.3001.1日083)
+def cluster_analysis(corpus ):
+vectorizer = TfidfVectorizer()
+x = vectorizer.fit_transform( corpus)kmeans = KMeans(n_clusters=5)
+kmeans.fit(X)
+labels = kmeans. labels_return labels
+#可视化展示
+def visualization(corpus, labels) :
+plt.rcParams[ 'font.sans-serif' ] = [ 'simHei ' ]plt.rcParams [ 'axes.unicode_minus ' ] = Falseplt.scatter( labels, range( len( corpus) ))plt.show()
+#主[函数](httos://geek.csdn.net/educolumr/ba94496e6cfa8630df5d047358ad9719?dp_token=eyJeexAioi.JKV1giLChbGci0i71UT1Ni9.eyif _name___ -= '__main__ ':
+url = 'http: / / news.sina.com.cn/china/ 'content = get_news(url)
+corpus = preprocess(content)
+labels = cluster_analysis(corpus)visualization(corpus，labels)
